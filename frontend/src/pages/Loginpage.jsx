@@ -15,7 +15,7 @@ const Login = () => {
 		username: yup.string().required(t('validation.required')),
 		password: yup.string().required(t('validation.required'))
 	});
-    const goRegister = () => navigate('/register');
+    const goRegister = () => navigate('/singup');
 	const notifyErrorNetwork = () => toast(t('notifications.errorConnect'), {
 		hideProgressBar: true,
 		theme: "dark"

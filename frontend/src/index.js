@@ -10,17 +10,26 @@ import App from './App';
 import { AuthorizationProvider } from './AuthorizationContext';
 import i18n from './i18n';
 import { I18nextProvider } from 'react-i18next';
+import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react';
 
+const rollbarConfig = {
+	accessToken: '65b8d0332b9643d59048b6bc6349b1a4',
+	environment: 'production',
+  };
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-	<I18nextProvider i18n={i18n}>
-		<Provider store={store}>
-			<AuthorizationProvider>
-				<BrowserRouter>
-					<App />
-				</BrowserRouter>
-			</AuthorizationProvider>
-		</Provider>
-	</I18nextProvider>
+	<RollbarProvider config={rollbarConfig}>
+		<ErrorBoundary>
+			<I18nextProvider i18n={i18n}>
+				<Provider store={store}>
+					<AuthorizationProvider>
+						<BrowserRouter>
+							<App />
+						</BrowserRouter>
+					</AuthorizationProvider>
+				</Provider>
+			</I18nextProvider>
+		</ErrorBoundary>
+	</RollbarProvider>
 );

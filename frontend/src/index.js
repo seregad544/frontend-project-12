@@ -14,7 +14,8 @@ import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react';
 
 const rollbarConfig = {
 	accessToken: '65b8d0332b9643d59048b6bc6349b1a4',
-	environment: 'production',
+	captureUncaught: true,
+    captureUnhandledRejections: true
   };
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

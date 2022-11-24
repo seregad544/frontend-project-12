@@ -1,0 +1,98 @@
+{
+	"login": {
+		"title": "Войти",
+		"placeholder": {
+			"userName": "Ваш ник",
+			"password": "Пароль"
+		},
+		"label": {
+			"userName": "Имя пользователя:",
+			"password": "Пароль:"
+		},
+		"button": "ВОЙТИ",
+		"signUpStart": "У вас нет учетной записи? ",
+		"signUpEnd": "Зарегистрироваться."
+	},
+	"singUp": {
+		"title": "Регистрация",
+		"placeholder": {
+			"userName": "Имя пользователя",
+			"password": "Пароль",
+			"confirmPassword": "Подтвердите пароль"
+		},
+		"label": {
+			"userName": "Имя пользователя:",
+			"password": "Пароль:",
+			"confirmPassword": "Подтвердите пароль:"
+		},
+		"button": "РЕГИСТРАЦИЯ"
+	},
+	"notfoundpage": {
+		"title": "Cтраница не найдена"
+	},
+	"home": {
+		"title":{
+			"channels": "Каналы",
+			"messages_zero": "{{count}} сообщений",
+			"messages_one": "{{count}} сообщениe",
+			"messages_few": "{{count}} сообщения",
+			"messages_many": "{{count}} сообщений"
+		},
+		"label": {
+			"add": "Добавить канал",
+			"send": "Отправить сообщение",
+			"message": "Новое сообщение:"
+		},
+		"placeholder": {
+			"message": "Введите сообщение..."
+		},
+		"button": "ВЫЙТИ"
+	},
+	"notifications": {
+		"addChannel": "Канал добавлен!",
+		"removeChannel": "Канал удален!",
+		"renameChannel": "Канал переименован!",
+		"errorConnect": "ошибка соединения",
+		"errorMessage": "Не удалось отправить сообщение, ошибка соединения",
+		"errorChannelAdd": "Не удалось добавить новый канал, ошибка соединения",
+		"errorChannelRename": "Не удалось переименовать канал, ошибка соединения",
+		"errorChannelRemove": "Не удалось удалить канал, ошибка соединения"
+	},
+	"dropdownMenu": {
+		"remove": "удалить",
+		"rename": "переименовать"
+	},
+	"modal": {
+		"title":{
+			"addChannel" : "Добавить канал",
+			"removeChanel": "Удалить канал",
+			"renameChanel": "Переименовать канал",
+			"areYouSure": "Уверены?"
+		},
+		"button": {
+			"cancel" : "Отменить",
+			"send": "Отправить",
+			"remove": "Удалить"
+		},
+		"placeholder": {
+			"channel": "Введите назание канала..."
+		},
+		"label": {
+			"channel": "Название канала:"
+		}
+	},
+	"validation": {
+		"required" : "обязательное поле",
+		"uniqueName": "Имя канала должно быть уникальным",
+		"minName3": "минимальная длина имени 3 мивола",
+		"maxName20": "максимальная длина имени 20 мивола",
+		"minPassword6": "минимальная длина пароля 6 мивола",
+		"PasswordsDontMatch": "Пароли не совпадают",
+		"renameChanel": "Переименовать канал"
+	},
+	"errors": {
+		"default": "Ошибка",
+		"409": "Такой пользователь уже существует",
+    	"401": "Неверное имя пользователя или пароль"
+	}
+  }

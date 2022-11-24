@@ -1,0 +1,21 @@
+{
+	"login": {
+		"title": "Login",
+		"inputLogin": "User name",
+		"inputPassword": "Password",
+		"button": "LOGIN",
+		"signUpStart": "Don't have an account",
+		"signUpEnd": "Sign up"
+	},
+    "home": {
+		"channels": "Channels",
+		"messages": "messages",
+		"inputMessage": "Type your message...",
+		"button": "EXIT"
+	},
+		"singUp": {
+		"part1": "Чтобы начать работу, отредактируйте и сохраните файл <1>src/App.js</1>.",
+		"part2": "С помощью кнопок переключайте язык между английским и русским."
+	}
+  }
+  

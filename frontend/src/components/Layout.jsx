@@ -1,23 +1,24 @@
-import { useSelector } from "react-redux";
-import { Outlet } from "react-router-dom";
+import { React } from 'react';
+import { useSelector } from 'react-redux';
+import { Outlet } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { CustomModal } from "./CustomModal";
-import { Head } from "./Head";
+import CustomModal from './CustomModal';
+import Head from './Head';
 
-const Layout = () => {
-	const isOpened = useSelector((state) => state.modalInfo.isOpened);
-	
-	return (
-		<div className="d-flex flex-column h-100">
-			<Head></Head>
-			<div className="container-fluid h-100 black-2">
-				<Outlet />
-			</div>
-			{isOpened ? <CustomModal></CustomModal> : null}
-			<ToastContainer />
-		</div>
-	);
-};
+function Layout() {
+  const isOpened = useSelector((state) => state.modalInfo.isOpened);
 
-export { Layout };
+  return (
+    <div className="d-flex flex-column h-100">
+      <Head />
+      <div className="container-fluid h-100 black-2">
+        <Outlet />
+      </div>
+      {isOpened ? <CustomModal /> : null}
+      <ToastContainer />
+    </div>
+  );
+}
+
+export default Layout;

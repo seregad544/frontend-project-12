@@ -10,7 +10,7 @@ function TopMessageFeed() {
   const numberOfMessages = messages.filter((item) => item.channelId === id).length;
 
   return (
-    <div className="black mb-4 p-3 small">
+    <div className="black p-3 small">
       <p className="m-0 text-light">
         <b>
           #

@@ -26,7 +26,7 @@ function InputMessageFeed() {
   });
 
   return (
-    <div className="mt-auto px-5 py-3">
+    <div className="mt-auto px-5 pb-3">
       <form noValidate="" className="py-1 border-0 rounded-2">
         <Formik
           initialValues={{

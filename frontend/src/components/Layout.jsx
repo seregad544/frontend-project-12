@@ -12,9 +12,7 @@ function Layout() {
   return (
     <div className="d-flex flex-column h-100">
       <Head />
-      <div className="container-fluid h-100 black-2">
-        <Outlet />
-      </div>
+      <Outlet />
       {isOpened ? <CustomModal /> : null}
       <ToastContainer />
     </div>

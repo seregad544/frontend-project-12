@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import {
-  React, useEffect, useContext, useCallback,
+  React, useEffect, useContext, useCallback, useState,
 } from 'react';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
@@ -15,12 +15,14 @@ import { add as addMessage, remove as removeMessage, initializationMessages } fr
 import Sidebar from '../components/Sidebar';
 import MessageFeed from '../components/MessageFeed';
 import socket from '../socket';
+import Loader from '../components/Loader';
 
 function Home() {
   const { authorization } = useContext(AuthorizationContext);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { t } = useTranslation();
+  const [lodingStatus, setlodingStatus] = useState(true);
 
   const notifyErrorNetwork = useCallback(
     () => toast(t('notifications.errorConnect'), {
@@ -44,6 +46,7 @@ function Home() {
       const { channels, currentChannelId, messages } = data;
       dispatch(initialization({ channels, currentChannelId }));
       dispatch(initializationMessages({ messages }));
+      setlodingStatus(false);
     };
     const addWatchers = () => {
       const addNewChannel = (channel) => dispatch(add(channel));
@@ -68,11 +71,13 @@ function Home() {
   }, [dispatch, notifyErrorNetwork, authorization]);
 
   return (
-    <div className="container h-95 my-4 overflow-hidden rounded shadow">
-      <div className="row h-100 bg-white flex-md-row">
-        <Sidebar />
-        <MessageFeed />
-      </div>
+    <div className="container h-100 my-4 overflow-hidden rounded shadow">
+      {lodingStatus ? <Loader /> : (
+        <div className="row h-100 bg-white flex-md-row">
+          <Sidebar />
+          <MessageFeed />
+        </div>
+      )}
     </div>
   );
 }

@@ -12,7 +12,11 @@ function ModalBodyAdd() {
   const dispatch = useDispatch();
   const chanels = useSelector((state) => state.channelsInfo.channels).map((chanel) => chanel.name);
   const validationShema = yup.object().shape({
-    channel: yup.string().required(t('validation.required')).notOneOf(chanels, t('validation.uniqueName')),
+    channel: yup.string()
+      .required(t('validation.required'))
+      .min(3, t('validation.Name3-20'))
+      .max(20, t('validation.Name3-20'))
+      .notOneOf(chanels, t('validation.uniqueName')),
   });
   const notifyAddChannel = () => toast(t('notifications.addChannel'), {
     hideProgressBar: true,

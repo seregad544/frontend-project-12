@@ -15,7 +15,11 @@ function ModalBodyRename() {
   const chanelsName = chanels.map((chanel) => chanel.name);
   const currentName = chanels.filter((item) => item.id === id).map((item) => item.name)[0];
   const validationShema = yup.object().shape({
-    channel: yup.string().required(t('validation.required')).notOneOf(chanelsName, t('validation.uniqueName')),
+    channel: yup.string()
+      .required(t('validation.required'))
+      .min(3, t('validation.Name3-20'))
+      .max(20, t('validation.Name3-20'))
+      .notOneOf(chanelsName, t('validation.uniqueName')),
   });
   const close = () => dispatch(closeModal());
   const notifyRenameChannel = () => toast(t('notifications.renameChannel'), {

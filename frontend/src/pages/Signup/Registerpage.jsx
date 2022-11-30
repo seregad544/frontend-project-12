@@ -1,18 +1,20 @@
-import { React, useContext, useEffect } from 'react';
+import {
+  React, useContext, useEffect, useRef, useState,
+} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import { AuthorizationContext } from '../AuthorizationContext';
+import { AuthorizationContext } from '../../AuthorizationContext';
 
 function Register() {
-  const {
-    authorization, login, errorAuthorization, errorHandler,
-  } = useContext(AuthorizationContext);
+  const { login, errorHandler } = useContext(AuthorizationContext);
+  const [errorAuthorization, seterrorAuthorization] = useState('');
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const firstInput = useRef(null);
   const validationShema = yup.object().shape({
     username: yup.string()
       .required(t('validation.required'))
@@ -26,18 +28,14 @@ function Register() {
       .oneOf([yup.ref('password')], t('validation.PasswordsDontMatch')),
   });
   const goLogin = () => navigate('/login');
+  const goHome = () => navigate('/');
   const notifyErrorNetwork = () => toast(t('notifications.errorConnect'), {
     hideProgressBar: true,
     theme: 'dark',
   });
 
   useEffect(() => {
-    if (authorization.status === true) {
-      navigate('/');
-    }
-  });
-  useEffect(() => {
-    document.getElementsByName('username')[0].focus();
+    firstInput.current.focus();
   }, []);
 
   return (
@@ -58,14 +56,14 @@ function Register() {
                     const { token, username } = response.data;
                     localStorage.token = token;
                     localStorage.username = username;
-                    login();
+                    login(goHome);
                   })
                   .catch((error) => {
                     if (error.code === 'ERR_NETWORK') {
                       notifyErrorNetwork();
                     }
                     setSubmitting(false);
-                    errorAuthorization(error.response.status);
+                    seterrorAuthorization(error.response.status);
                   });
               };
               request(values);
@@ -81,6 +79,7 @@ function Register() {
                   <input
                     type="text"
                     name="username"
+                    ref={firstInput}
                     id="username"
                     className="form-control form-control-md black border-0 text-secondary"
                     onBlur={handleBlur}
@@ -117,7 +116,7 @@ function Register() {
                     placeholder={t('signUp.placeholder.confirmPassword')}
                   />
                   {(touched.confirmPassword && errors.confirmPassword) ? <div className="bg-danger position-absolute rounded px-2 opacity-75">{errors.confirmPassword}</div> : null}
-                  {(authorization.status !== false) ? <div className="bg-danger position-absolute rounded px-2 opacity-75">{errorHandler(authorization.status)}</div> : null}
+                  {(errorAuthorization !== '') ? <div className="bg-danger position-absolute rounded px-2 opacity-75">{errorHandler(errorAuthorization)}</div> : null}
                 </div>
                 <button
                   className="btn btn-primary btn-lg btn-block text-uppercase font-weight-semibold mb-2 w-100"

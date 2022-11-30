@@ -4,8 +4,8 @@ import { useTranslation } from 'react-i18next';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import { toast } from 'react-toastify';
-import socket from '../socket';
-import { closeModal } from '../store/modalSlice';
+import socket from '../../../../../socket';
+import { closeModal } from '../../../../../store/modalSlice';
 
 function ModalBodyAdd() {
   const { t } = useTranslation();

@@ -13,16 +13,18 @@ function AuthorizationProvider({ children }) {
     409: t('errors.409'),
     401: t('errors.401'),
   };
-  const login = () => setAuthorization({ status: true, userName: localStorage.getItem('username') });
+  const login = (redirect) => {
+    setAuthorization({ status: true, userName: localStorage.getItem('username') });
+    redirect();
+  };
   const logout = () => {
     localStorage.clear();
     setAuthorization({ status: false });
   };
-  const errorAuthorization = (error) => setAuthorization({ status: error });
   const errorHandler = (error) => ((errorList[error] === undefined) ? `${t('errors.default')} ${error}` : errorList[error]);
   // eslint-disable-next-line react/jsx-no-constructed-context-values
   const context = {
-    authorization, login, logout, errorAuthorization, errorHandler,
+    authorization, login, logout, errorHandler,
   };
 
   return (

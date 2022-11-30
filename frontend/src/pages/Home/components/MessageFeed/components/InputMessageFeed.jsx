@@ -1,15 +1,18 @@
-import { React, useEffect, useContext } from 'react';
+import {
+  React, useEffect, useContext, useRef,
+} from 'react';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import filter from 'leo-profanity';
 import { toast } from 'react-toastify';
-import { AuthorizationContext } from '../AuthorizationContext';
-import socket from '../socket';
+import { AuthorizationContext } from '../../../../../AuthorizationContext';
+import socket from '../../../../../socket';
 
 function InputMessageFeed() {
   const { t } = useTranslation();
+  const input = useRef(null);
   const { authorization: { userName } } = useContext(AuthorizationContext);
   const currentChannelId = useSelector((state) => state.channelsInfo.currentChannelId);
   const validationShema = yup.object().shape({
@@ -22,7 +25,7 @@ function InputMessageFeed() {
   });
 
   useEffect(() => {
-    document.getElementsByName('message')[0].focus();
+    input.current.focus();
   });
 
   return (
@@ -54,6 +57,7 @@ function InputMessageFeed() {
                 className="border-0 p-0 ps-2 form-control"
                 type="text"
                 name="message"
+                ref={input}
                 aria-label={t('home.label.message')}
                 onChange={handleChange}
                 value={values.message}

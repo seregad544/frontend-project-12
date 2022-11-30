@@ -1,27 +1,27 @@
-import { useNavigate } from 'react-router-dom';
 import {
   React, useEffect, useContext, useCallback, useState,
 } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 import filter from 'leo-profanity';
 import axios from 'axios';
-import { AuthorizationContext } from '../AuthorizationContext';
+import { AuthorizationContext } from '../../AuthorizationContext';
 import {
   add, initialization, remove, rename,
-} from '../store/channelsSlice';
-import { add as addMessage, remove as removeMessage, initializationMessages } from '../store/messagesInfoSlice';
-import Sidebar from '../components/Sidebar';
-import MessageFeed from '../components/MessageFeed';
-import socket from '../socket';
-import Loader from '../components/Loader';
+} from '../../store/channelsSlice';
+import { add as addMessage, remove as removeMessage, initializationMessages } from '../../store/messagesInfoSlice';
+import Sidebar from './components/Sidebar/Sidebar';
+import MessageFeed from './components/MessageFeed/MessageFeed';
+import socket from '../../socket';
+import Loader from './components/Loader';
+import CustomModal from './components/CustomModal/CustomModal';
 
 function Home() {
   const { authorization } = useContext(AuthorizationContext);
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { t } = useTranslation();
+  const isOpened = useSelector((state) => state.modalInfo.isOpened);
   const [lodingStatus, setlodingStatus] = useState(true);
 
   const notifyErrorNetwork = useCallback(
@@ -31,12 +31,6 @@ function Home() {
     }),
     [t],
   );
-
-  useEffect(() => {
-    if (authorization.status !== true) {
-      navigate('/login');
-    }
-  });
 
   useEffect(() => {
     const fetchData = async () => {
@@ -76,6 +70,7 @@ function Home() {
         <div className="row h-100 bg-white flex-md-row">
           <Sidebar />
           <MessageFeed />
+          {isOpened ? <CustomModal /> : null}
         </div>
       )}
     </div>

@@ -5,7 +5,7 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Dropdown from 'react-bootstrap/Dropdown';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { removeChanel, renameChanel } from '../store/modalSlice';
+import { removeChanel, renameChanel } from '../../../../../store/modalSlice';
 
 function Chanel(props) {
   const { active, onClick, children } = props;

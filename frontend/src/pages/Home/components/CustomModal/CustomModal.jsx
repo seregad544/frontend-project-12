@@ -2,10 +2,10 @@ import { React } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { closeModal } from '../store/modalSlice';
-import ModalBodyAdd from './ModalBodyAdd';
-import ModalBodyRename from './ModalBodyRename';
-import ModalBodyRemove from './ModalBodyRemove';
+import { closeModal } from '../../../../store/modalSlice';
+import ModalBodyAdd from './components/ModalBodyAdd';
+import ModalBodyRename from './components/ModalBodyRename';
+import ModalBodyRemove from './components/ModalBodyRemove';
 
 function CustomModal() {
   const dispatch = useDispatch();

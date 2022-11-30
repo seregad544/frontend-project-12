@@ -1,6 +1,6 @@
 import { React } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { change } from '../store/channelsSlice';
+import { change } from '../../../../../store/channelsSlice';
 import Chanel from './Chanel';
 import DefaultChanel from './DefaultChanel';
 

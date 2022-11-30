@@ -1,7 +1,7 @@
 import { React } from 'react';
-import InputMessageFeed from './InputMessageFeed';
-import MessageBox from './MessageBox';
-import TopMessageFeed from './TopMessageFeed';
+import InputMessageFeed from './components/InputMessageFeed';
+import MessageBox from './components/MessageBox';
+import TopMessageFeed from './components/TopMessageFeed';
 
 function MessageFeed() {
   return (

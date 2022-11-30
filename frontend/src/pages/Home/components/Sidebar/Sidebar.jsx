@@ -1,6 +1,6 @@
 import { React } from 'react';
-import TopSidebar from './TopSidebar';
-import ChanelList from './ChanelList';
+import TopSidebar from './components/TopSidebar';
+import ChanelList from './components/ChanelList';
 
 function Sidebar() {
   return (

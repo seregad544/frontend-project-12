@@ -2,8 +2,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { React, useState } from 'react';
 import { toast } from 'react-toastify';
-import { closeModal } from '../store/modalSlice';
-import socket from '../socket';
+import { closeModal } from '../../../../../store/modalSlice';
+import socket from '../../../../../socket';
 
 function ModalBodyRemove() {
   const dispatch = useDispatch();

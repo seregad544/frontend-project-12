@@ -2,14 +2,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { React, useState } from 'react';
 import { toast } from 'react-toastify';
-import { closeModal } from '../../../../../store/modalSlice';
+import { closeModal, selectModalExtra } from '../../../../../store/modalSlice';
 import socket from '../../../../../socket';
 
 function ModalBodyRemove() {
   const dispatch = useDispatch();
   const [submitting, setSubmitting] = useState(false);
   const { t } = useTranslation();
-  const id = useSelector((state) => state.modalInfo.extra);
+  const id = useSelector(selectModalExtra);
   const notifyRemoveChannel = () => toast(t('notifications.removeChannel'), {
     hideProgressBar: true,
     theme: 'dark',

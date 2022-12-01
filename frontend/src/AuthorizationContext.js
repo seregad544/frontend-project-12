@@ -12,6 +12,12 @@ function AuthorizationProvider({ children }) {
   const errorList = {
     409: t('errors.409'),
     401: t('errors.401'),
+    required: t('validation.required'),
+    uniqueName: t('validation.uniqueName'),
+    minLength3: t('validation.Name3-20'),
+    maxLength20: t('validation.Name3-20'),
+    minLength6: t('validation.minPassword6'),
+    passwordsDontMatch: t('validation.PasswordsDontMatch'),
   };
   const login = (redirect) => {
     setAuthorization({ status: true, userName: localStorage.getItem('username') });

@@ -9,12 +9,13 @@ import filter from 'leo-profanity';
 import { toast } from 'react-toastify';
 import { AuthorizationContext } from '../../../../../AuthorizationContext';
 import socket from '../../../../../socket';
+import { selectCurrentChannelId } from '../../../../../store/channelsSlice';
 
 function InputMessageFeed() {
   const { t } = useTranslation();
   const input = useRef(null);
   const { authorization: { userName } } = useContext(AuthorizationContext);
-  const currentChannelId = useSelector((state) => state.channelsInfo.currentChannelId);
+  const currentChannelId = useSelector(selectCurrentChannelId);
   const validationShema = yup.object().shape({
     message: yup.string().required(t('validation.required')),
   });

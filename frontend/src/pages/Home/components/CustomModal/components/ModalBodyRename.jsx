@@ -1,25 +1,30 @@
-import { React, useEffect } from 'react';
+import {
+  React, useEffect, useRef, useContext,
+} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import { toast } from 'react-toastify';
 import socket from '../../../../../socket';
-import { closeModal } from '../../../../../store/modalSlice';
+import { closeModal, selectModalExtra } from '../../../../../store/modalSlice';
+import { selectCurrentChannelName, selectNamesChannels } from '../../../../../store/channelsSlice';
+import { AuthorizationContext } from '../../../../../AuthorizationContext';
 
 function ModalBodyRename() {
   const dispatch = useDispatch();
   const { t } = useTranslation();
-  const { id } = useSelector((state) => state.modalInfo.extra);
-  const chanels = useSelector((state) => state.channelsInfo.channels);
-  const chanelsName = chanels.map((chanel) => chanel.name);
-  const currentName = chanels.filter((item) => item.id === id).map((item) => item.name)[0];
+  const { errorHandler } = useContext(AuthorizationContext);
+  const input = useRef(null);
+  const { id } = useSelector(selectModalExtra);
+  const namesChanels = useSelector(selectNamesChannels);
+  const currentName = useSelector(selectCurrentChannelName);
   const validationShema = yup.object().shape({
     channel: yup.string()
-      .required(t('validation.required'))
-      .min(3, t('validation.Name3-20'))
-      .max(20, t('validation.Name3-20'))
-      .notOneOf(chanelsName, t('validation.uniqueName')),
+      .required('required')
+      .min(3, 'minLength3')
+      .max(20, 'maxLength20')
+      .notOneOf(namesChanels, 'uniqueName'),
   });
   const close = () => dispatch(closeModal());
   const notifyRenameChannel = () => toast(t('notifications.renameChannel'), {
@@ -32,7 +37,7 @@ function ModalBodyRename() {
   });
 
   useEffect(() => {
-    document.getElementsByName('channel')[0].focus();
+    input.current.focus();
   }, []);
 
   return (
@@ -65,12 +70,13 @@ function ModalBodyRename() {
             className="p-0 px-2 mb-2 form-control"
             type="text"
             name="channel"
+            ref={input}
             id="channel"
             onChange={handleChange}
             value={values.channel}
             placeholder={t('modal.placeholder.channel')}
           />
-          {(errors.channel) ? <div className="text-danger">{errors.channel}</div> : null}
+          {(errors.channel) ? <div className="text-danger">{errorHandler(errors.channel)}</div> : null}
           <div className="d-flex justify-content-end">
             <button type="button" onClick={close} className="me-2 btn btn-secondary">
               {t('modal.button.cancel')}

@@ -1,10 +1,12 @@
 import { React, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import Message from './Message';
+import { selectCurrentChannelId } from '../../../../../store/channelsSlice';
+import { selectAllMessages } from '../../../../../store/messagesInfoSlice';
 
 function MessageBox() {
-  const messages = useSelector((state) => state.messagesInfo.messages);
-  const currentChannelId = useSelector((state) => state.channelsInfo.currentChannelId);
+  const messages = useSelector(selectAllMessages);
+  const currentChannelId = useSelector(selectCurrentChannelId);
 
   useEffect(() => {
     const messagesBox = document.getElementById('messages-box');

@@ -2,7 +2,7 @@ import { React } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { closeModal } from '../../../../store/modalSlice';
+import { closeModal, selectTypeModal } from '../../../../store/modalSlice';
 import ModalBodyAdd from './components/ModalBodyAdd';
 import ModalBodyRename from './components/ModalBodyRename';
 import ModalBodyRemove from './components/ModalBodyRemove';
@@ -10,7 +10,7 @@ import ModalBodyRemove from './components/ModalBodyRemove';
 function CustomModal() {
   const dispatch = useDispatch();
   const { t } = useTranslation();
-  const typeModal = useSelector((state) => state.modalInfo.type);
+  const typeModal = useSelector(selectTypeModal);
   const close = () => dispatch(closeModal());
 
   const title = {

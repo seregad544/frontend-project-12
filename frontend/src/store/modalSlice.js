@@ -32,6 +32,9 @@ const modalSlice = createSlice({
   },
 });
 
+export const selectTypeModal = (state) => state.modalInfo.type;
+export const selectModalExtra = (state) => state.modalInfo.extra;
+export const selectModalIsOpened = (state) => state.modalInfo.isOpened;
 export const {
   addChanel, closeModal, removeChanel, renameChanel,
 } = modalSlice.actions;

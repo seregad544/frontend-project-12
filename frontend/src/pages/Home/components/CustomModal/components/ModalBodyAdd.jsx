@@ -1,4 +1,6 @@
-import { React, useEffect } from 'react';
+import {
+  React, useEffect, useRef, useContext,
+} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { Formik } from 'formik';
@@ -6,17 +8,21 @@ import * as yup from 'yup';
 import { toast } from 'react-toastify';
 import socket from '../../../../../socket';
 import { closeModal } from '../../../../../store/modalSlice';
+import { selectNamesChannels } from '../../../../../store/channelsSlice';
+import { AuthorizationContext } from '../../../../../AuthorizationContext';
 
 function ModalBodyAdd() {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const chanels = useSelector((state) => state.channelsInfo.channels).map((chanel) => chanel.name);
+  const { errorHandler } = useContext(AuthorizationContext);
+  const namesChannels = useSelector(selectNamesChannels);
+  const input = useRef(null);
   const validationShema = yup.object().shape({
     channel: yup.string()
-      .required(t('validation.required'))
-      .min(3, t('validation.Name3-20'))
-      .max(20, t('validation.Name3-20'))
-      .notOneOf(chanels, t('validation.uniqueName')),
+      .required('required')
+      .min(3, 'minLength3')
+      .max(20, 'maxLength20')
+      .notOneOf(namesChannels, 'uniqueName'),
   });
   const notifyAddChannel = () => toast(t('notifications.addChannel'), {
     hideProgressBar: true,
@@ -29,7 +35,7 @@ function ModalBodyAdd() {
   const close = () => dispatch(closeModal());
 
   useEffect(() => {
-    document.getElementsByName('channel')[0].focus();
+    input.current.focus();
   }, []);
 
   return (
@@ -62,12 +68,13 @@ function ModalBodyAdd() {
             className="p-0 px-2 mb-2 form-control"
             type="text"
             name="channel"
+            ref={input}
             id="channel"
             onChange={handleChange}
             value={values.channel}
             placeholder={t('modal.placeholder.channel')}
           />
-          {(errors.channel) ? <div className="text-danger">{errors.channel}</div> : null}
+          {(errors.channel) ? <div className="text-danger">{errorHandler(errors.channel)}</div> : null}
           <div className="d-flex justify-content-end">
             <button type="button" onClick={close} className="me-2 btn btn-secondary">
               {t('modal.button.cancel')}

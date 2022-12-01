@@ -16,8 +16,8 @@ function Login() {
   const { t } = useTranslation();
   const firstInput = useRef(null);
   const validationShema = yup.object().shape({
-    username: yup.string().required(t('validation.required')),
-    password: yup.string().required(t('validation.required')),
+    username: yup.string().required('required'),
+    password: yup.string().required('required'),
   });
   const goRegister = () => navigate('/signup');
   const goHome = () => navigate('/');
@@ -62,7 +62,7 @@ function Login() {
             validationSchema={validationShema}
           >
             {({
-              values, errors, touched, handleChange, isValid, handleSubmit, isSubmitting,
+              values, handleChange, isValid, handleSubmit, isSubmitting,
             }) => (
               <form className="mb-3">
                 <div className="mb-3">
@@ -77,7 +77,6 @@ function Login() {
                     value={values.username}
                     placeholder={t('login.placeholder.userName')}
                   />
-                  {(touched.username && errors.username) ? <div className="bg-danger position-absolute rounded px-2 opacity-75">{errors.username}</div> : null}
                 </div>
                 <div className="mb-3">
                   <label htmlFor="password" className="visually-hidden">{t('login.label.password')}</label>
@@ -90,7 +89,6 @@ function Login() {
                     value={values.password}
                     placeholder={t('login.placeholder.password')}
                   />
-                  {(touched.password && errors.password) ? <div className="bg-danger position-absolute rounded px-2 opacity-75">{errors.password}</div> : null}
                   {(errorAuthorization !== '') ? <div className="bg-danger position-absolute rounded px-2 opacity-75">{errorHandler(errorAuthorization)}</div> : null}
                 </div>
                 <button

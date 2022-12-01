@@ -17,15 +17,15 @@ function Register() {
   const firstInput = useRef(null);
   const validationShema = yup.object().shape({
     username: yup.string()
-      .required(t('validation.required'))
-      .min(3, t('validation.Name3-20'))
-      .max(20, t('validation.Name3-20')),
+      .required('required')
+      .min(3, 'minLength3')
+      .max(20, 'maxLength20'),
     password: yup.string()
-      .required(t('validation.required'))
-      .min(6, t('validation.minPassword6')),
+      .required('required')
+      .min(6, 'minLength6'),
     confirmPassword: yup.string()
-      .required(t('validation.required'))
-      .oneOf([yup.ref('password')], t('validation.PasswordsDontMatch')),
+      .required('required')
+      .oneOf([yup.ref('password')], 'passwordsDontMatch'),
   });
   const goLogin = () => navigate('/login');
   const goHome = () => navigate('/');
@@ -87,7 +87,7 @@ function Register() {
                     value={values.username}
                     placeholder={t('signUp.placeholder.userName')}
                   />
-                  {(touched.username && errors.username) ? <div className="bg-danger position-absolute rounded px-2 opacity-75">{errors.username}</div> : null}
+                  {(touched.username && errors.username) ? <div className="bg-danger position-absolute rounded px-2 opacity-75">{errorHandler(errors.username)}</div> : null}
                 </div>
                 <div className="mb-3">
                   <label htmlFor="password" className="visually-hidden">{t('signUp.label.password')}</label>
@@ -101,7 +101,7 @@ function Register() {
                     value={values.password}
                     placeholder={t('signUp.placeholder.password')}
                   />
-                  {(touched.password && errors.password) ? <div className="bg-danger position-absolute rounded px-2 opacity-75">{errors.password}</div> : null}
+                  {(touched.password && errors.password) ? <div className="bg-danger position-absolute rounded px-2 opacity-75">{errorHandler(errors.password)}</div> : null}
                 </div>
                 <div className="mb-3">
                   <label htmlFor="confirmPassword" className="visually-hidden">{t('signUp.label.confirmPassword')}</label>
@@ -115,7 +115,7 @@ function Register() {
                     value={values.confirmPassword}
                     placeholder={t('signUp.placeholder.confirmPassword')}
                   />
-                  {(touched.confirmPassword && errors.confirmPassword) ? <div className="bg-danger position-absolute rounded px-2 opacity-75">{errors.confirmPassword}</div> : null}
+                  {(touched.confirmPassword && errors.confirmPassword) ? <div className="bg-danger position-absolute rounded px-2 opacity-75">{errorHandler(errors.confirmPassword)}</div> : null}
                   {(errorAuthorization !== '') ? <div className="bg-danger position-absolute rounded px-2 opacity-75">{errorHandler(errorAuthorization)}</div> : null}
                 </div>
                 <button

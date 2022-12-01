@@ -1,11 +1,12 @@
 import { React } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { change } from '../../../../../store/channelsSlice';
+import { change, selectAllChannels, selectCurrentChannelId } from '../../../../../store/channelsSlice';
 import Chanel from './Chanel';
 import DefaultChanel from './DefaultChanel';
 
 function ChanelList() {
-  const { channels, currentChannelId } = useSelector((state) => state.channelsInfo);
+  const channels = useSelector(selectAllChannels);
+  const currentChannelId = useSelector(selectCurrentChannelId);
   const dispatch = useDispatch();
   const setDefaultChanel = (id) => dispatch(change(id));
   const isActive = (id) => id === currentChannelId;

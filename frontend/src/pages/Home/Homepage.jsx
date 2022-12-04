@@ -7,20 +7,18 @@ import { useTranslation } from 'react-i18next';
 import filter from 'leo-profanity';
 import { AuthorizationContext } from '../../AuthorizationContext';
 import {
+  clearError,
   fetchData, selectError, selectLoadingStatus,
 } from '../../store/channelsSlice';
 import Sidebar from './components/Sidebar/Sidebar';
 import MessageFeed from './components/MessageFeed/MessageFeed';
-import socket from '../../socket';
 import Loader from './components/Loader';
 import CustomModal from './components/CustomModal/CustomModal';
-import { selectModalIsOpened } from '../../store/modalSlice';
 
 function Home() {
   const { authorization } = useContext(AuthorizationContext);
   const dispatch = useDispatch();
   const { t } = useTranslation();
-  const isOpened = useSelector(selectModalIsOpened);
   const loadingStatus = useSelector(selectLoadingStatus);
   const error = useSelector(selectError);
 
@@ -35,7 +33,7 @@ function Home() {
   useEffect(() => {
     dispatch(fetchData());
     filter.add(filter.getDictionary('ru'));
-    return () => socket.removeAllListeners();
+    return () => dispatch(clearError());
   }, [dispatch, notifyErrorNetwork, authorization]);
 
   useEffect(() => {
@@ -50,7 +48,7 @@ function Home() {
         <div className="row h-100 bg-white flex-md-row">
           <Sidebar />
           <MessageFeed />
-          {isOpened ? <CustomModal /> : null}
+          <CustomModal />
         </div>
       )}
     </div>

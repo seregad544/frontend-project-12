@@ -16,7 +16,6 @@ const modalSlice = createSlice({
     removeChanel(state, action) {
       state.isOpened = true;
       state.type = 'removeChanel';
-      console.log(action.payload);
       state.extra = action.payload;
     },
     renameChanel(state, action) {

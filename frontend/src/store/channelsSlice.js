@@ -5,8 +5,9 @@ import axios from 'axios';
 export const fetchData = createAsyncThunk(
   'fetchData',
   async () => {
+    const { token } = JSON.parse(localStorage.getItem('userData'));
     const { data } = await axios.get('/api/v1/data', {
-      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+      headers: { Authorization: `Bearer ${token}` },
     });
     return data;
   },
@@ -44,6 +45,9 @@ const ChannelSlice = createSlice({
         action.payload,
       ];
     },
+    clearError(state) {
+      state.error = null;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -77,6 +81,6 @@ export const selectNamesChannels = createSelector(
 );
 
 export const {
-  initialization, add, change, remove, rename,
+  initialization, add, change, remove, rename, clearError,
 } = ChannelSlice.actions;
 export default ChannelSlice.reducer;

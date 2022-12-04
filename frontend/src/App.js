@@ -1,7 +1,7 @@
 import { React } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Layout from './components/Layout';
-import RequireAuth from './hoc/RequireAuth';
+import AuthRedirect from './hoc/AuthRedirect';
 import Home from './pages/Home/Homepage';
 import Login from './pages/Login/Loginpage';
 import NotFound from './pages/NotFound/Notfoundpage';
@@ -14,13 +14,27 @@ function App() {
         <Route
           index
           element={(
-            <RequireAuth>
+            <AuthRedirect>
               <Home />
-            </RequireAuth>
+            </AuthRedirect>
           )}
         />
-        <Route path="login" element={<Login />} />
-        <Route path="signup" element={<Register />} />
+        <Route
+          path="login"
+          element={(
+            <AuthRedirect>
+              <Login />
+            </AuthRedirect>
+          )}
+        />
+        <Route
+          path="signup"
+          element={(
+            <AuthRedirect>
+              <Register />
+            </AuthRedirect>
+          )}
+        />
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>

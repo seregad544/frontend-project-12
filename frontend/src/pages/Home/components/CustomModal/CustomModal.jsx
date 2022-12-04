@@ -2,7 +2,7 @@ import { React } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { closeModal, selectTypeModal } from '../../../../store/modalSlice';
+import { closeModal, selectModalIsOpened, selectTypeModal } from '../../../../store/modalSlice';
 import ModalBodyAdd from './components/ModalBodyAdd';
 import ModalBodyRename from './components/ModalBodyRename';
 import ModalBodyRemove from './components/ModalBodyRemove';
@@ -11,6 +11,7 @@ function CustomModal() {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const typeModal = useSelector(selectTypeModal);
+  const isOpened = useSelector(selectModalIsOpened);
   const close = () => dispatch(closeModal());
 
   const title = {
@@ -25,7 +26,7 @@ function CustomModal() {
   };
 
   return (
-    <Modal show centered onHide={close}>
+    <Modal show={isOpened} centered onHide={close}>
       <Modal.Header closeButton>
         <Modal.Title>{title[typeModal]}</Modal.Title>
       </Modal.Header>

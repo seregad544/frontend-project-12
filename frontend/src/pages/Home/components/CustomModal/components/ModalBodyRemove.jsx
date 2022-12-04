@@ -1,13 +1,14 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { React, useState } from 'react';
+import { React, useState, useContext } from 'react';
 import { toast } from 'react-toastify';
 import { closeModal, selectModalExtra } from '../../../../../store/modalSlice';
-import socket from '../../../../../socket';
+import { AuthorizationContext } from '../../../../../AuthorizationContext';
 
 function ModalBodyRemove() {
   const dispatch = useDispatch();
   const [submitting, setSubmitting] = useState(false);
+  const { socket } = useContext(AuthorizationContext);
   const { t } = useTranslation();
   const id = useSelector(selectModalExtra);
   const notifyRemoveChannel = () => toast(t('notifications.removeChannel'), {

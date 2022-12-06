@@ -9,11 +9,13 @@ import filter from 'leo-profanity';
 import { toast } from 'react-toastify';
 import { AuthorizationContext } from '../../../../../AuthorizationContext';
 import { selectCurrentChannelId } from '../../../../../store/channelsSlice';
+import { SocketContext } from '../../../../../socket';
 
 function InputMessageFeed() {
   const { t } = useTranslation();
   const input = useRef(null);
-  const { authorization: { userName }, socket } = useContext(AuthorizationContext);
+  const { authorization: { userName } } = useContext(AuthorizationContext);
+  const { addNewMessage } = useContext(SocketContext);
   const currentChannelId = useSelector(selectCurrentChannelId);
   const validationShema = yup.object().shape({
     message: yup.string().required(t('validation.required')),
@@ -32,16 +34,15 @@ function InputMessageFeed() {
       message: '',
     },
     onSubmit: (values, { setSubmitting, resetForm }) => {
-      const addMessage = (message, channelId, username) => socket.timeout(5000).emit('newMessage', { body: message, channelId, username }, (err) => {
-        if (err) {
-          notifyErrorAddMessage();
-          setSubmitting(false);
-        } else {
-          resetForm({ message: '' });
-          setSubmitting(false);
-        }
-      });
-      addMessage(filter.clean(values.message), currentChannelId, userName);
+      const resolve = () => {
+        resetForm({ message: '' });
+        setSubmitting(false);
+      };
+      const reject = () => {
+        notifyErrorAddMessage();
+        setSubmitting(false);
+      };
+      addNewMessage(filter.clean(values.message), currentChannelId, userName, resolve, reject);
     },
     validationSchema: validationShema,
   });

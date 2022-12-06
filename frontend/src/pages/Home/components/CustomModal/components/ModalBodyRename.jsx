@@ -9,11 +9,13 @@ import { toast } from 'react-toastify';
 import { closeModal, selectModalExtra } from '../../../../../store/modalSlice';
 import { selectCurrentChannelName, selectNamesChannels } from '../../../../../store/channelsSlice';
 import { AuthorizationContext } from '../../../../../AuthorizationContext';
+import { SocketContext } from '../../../../../socket';
 
 function ModalBodyRename() {
   const dispatch = useDispatch();
   const { t } = useTranslation();
-  const { errorHandler, socket } = useContext(AuthorizationContext);
+  const { errorHandler } = useContext(AuthorizationContext);
+  const { renameChanell } = useContext(SocketContext);
   const input = useRef(null);
   const { id } = useSelector(selectModalExtra);
   const namesChanels = useSelector(selectNamesChannels);
@@ -43,18 +45,17 @@ function ModalBodyRename() {
       channel: currentName,
     },
     onSubmit: (values, { setSubmitting, resetForm }) => {
-      const renameChannel = (name) => socket.timeout(5000).emit('renameChannel', { id, name }, (err) => {
-        if (err) {
-          notifyErrorRenameChannel();
-          setSubmitting(false);
-        } else {
-          resetForm({ channel: '' });
-          setSubmitting(false);
-          close();
-          notifyRenameChannel();
-        }
-      });
-      renameChannel(values.channel);
+      const resolve = () => {
+        resetForm({ channel: '' });
+        setSubmitting(false);
+        close();
+        notifyRenameChannel();
+      };
+      const reject = () => {
+        notifyErrorRenameChannel();
+        setSubmitting(false);
+      };
+      renameChanell(id, values.channel, resolve, reject);
     },
     validationSchema: validationShema,
   });

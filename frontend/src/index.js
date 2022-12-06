@@ -11,6 +11,7 @@ import './index.css';
 import App from './App';
 import { AuthorizationProvider } from './AuthorizationContext';
 import i18n from './i18n';
+import initializationsSocket, { SocketContext } from './socket';
 
 const rollbarConfig = {
   accessToken: '65b8d0332b9643d59048b6bc6349b1a4',
@@ -18,17 +19,21 @@ const rollbarConfig = {
   captureUnhandledRejections: true,
 };
 
+const socket = initializationsSocket();
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <RollbarProvider config={rollbarConfig}>
     <ErrorBoundary>
       <I18nextProvider i18n={i18n}>
         <Provider store={store}>
-          <AuthorizationProvider>
-            <BrowserRouter>
-              <App />
-            </BrowserRouter>
-          </AuthorizationProvider>
+          <SocketContext.Provider value={socket}>
+            <AuthorizationProvider>
+              <BrowserRouter>
+                <App />
+              </BrowserRouter>
+            </AuthorizationProvider>
+          </SocketContext.Provider>
         </Provider>
       </I18nextProvider>
     </ErrorBoundary>

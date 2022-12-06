@@ -9,11 +9,14 @@ import { toast } from 'react-toastify';
 import { closeModal } from '../../../../../store/modalSlice';
 import { selectNamesChannels } from '../../../../../store/channelsSlice';
 import { AuthorizationContext } from '../../../../../AuthorizationContext';
+import { SocketContext } from '../../../../../socket';
 
 function ModalBodyAdd() {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const { errorHandler, socket } = useContext(AuthorizationContext);
+  const { errorHandler } = useContext(AuthorizationContext);
+  const { addChannel } = useContext(SocketContext);
+
   const namesChannels = useSelector(selectNamesChannels);
   const input = useRef(null);
   const validationShema = yup.object().shape({
@@ -41,18 +44,17 @@ function ModalBodyAdd() {
       channel: '',
     },
     onSubmit: (values, { setSubmitting, resetForm }) => {
-      const addChannel = (channel) => socket.timeout(5000).emit('newChannel', { name: channel }, (err) => {
-        if (err) {
-          notifyErrorAddChannel();
-          setSubmitting(false);
-        } else {
-          resetForm({ channel: '' });
-          setSubmitting(false);
-          close();
-          notifyAddChannel();
-        }
-      });
-      addChannel(values.channel);
+      const resolve = () => {
+        resetForm({ channel: '' });
+        setSubmitting(false);
+        close();
+        notifyAddChannel();
+      };
+      const reject = () => {
+        notifyErrorAddChannel();
+        setSubmitting(false);
+      };
+      addChannel(values.channel, resolve, reject);
     },
     validationSchema: validationShema,
   });

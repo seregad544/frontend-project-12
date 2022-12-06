@@ -3,12 +3,12 @@ import { useTranslation } from 'react-i18next';
 import { React, useState, useContext } from 'react';
 import { toast } from 'react-toastify';
 import { closeModal, selectModalExtra } from '../../../../../store/modalSlice';
-import { AuthorizationContext } from '../../../../../AuthorizationContext';
+import { SocketContext } from '../../../../../socket';
 
 function ModalBodyRemove() {
   const dispatch = useDispatch();
   const [submitting, setSubmitting] = useState(false);
-  const { socket } = useContext(AuthorizationContext);
+  const { removeChanell } = useContext(SocketContext);
   const { t } = useTranslation();
   const id = useSelector(selectModalExtra);
   const notifyRemoveChannel = () => toast(t('notifications.removeChannel'), {
@@ -22,16 +22,16 @@ function ModalBodyRemove() {
   const close = () => dispatch(closeModal());
   const deletee = () => {
     setSubmitting(true);
-    socket.timeout(5000).emit('removeChannel', id, (err) => {
-      if (err) {
-        notifyErrorRemoveChannel();
-        setSubmitting(false);
-      } else {
-        setSubmitting(false);
-        close();
-        notifyRemoveChannel();
-      }
-    });
+    const resolve = () => {
+      setSubmitting(false);
+      close();
+      notifyRemoveChannel();
+    };
+    const reject = () => {
+      notifyErrorRemoveChannel();
+      setSubmitting(false);
+    };
+    removeChanell(id, resolve, reject);
   };
 
   return (

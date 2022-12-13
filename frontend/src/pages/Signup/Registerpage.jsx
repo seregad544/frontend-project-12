@@ -8,10 +8,12 @@ import * as yup from 'yup';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { AuthorizationContext } from '../../AuthorizationContext';
+import UseErrorHandler from '../../hoc/UseErrorHandler';
 
 function Register() {
-  const { login, errorHandler } = useContext(AuthorizationContext);
+  const { login } = useContext(AuthorizationContext);
   const [errorAuthorization, seterrorAuthorization] = useState('');
+  const errorHandler = UseErrorHandler();
   const { t } = useTranslation();
   const firstInput = useRef(null);
   const validationShema = yup.object().shape({

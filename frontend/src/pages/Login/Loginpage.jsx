@@ -8,10 +8,12 @@ import * as yup from 'yup';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { AuthorizationContext } from '../../AuthorizationContext';
+import UseErrorHandler from '../../hoc/UseErrorHandler';
 
 function Login() {
-  const { login, errorHandler } = useContext(AuthorizationContext);
+  const { login } = useContext(AuthorizationContext);
   const [errorAuthorization, seterrorAuthorization] = useState('');
+  const errorHandler = UseErrorHandler();
   const { t } = useTranslation();
   const firstInput = useRef(null);
   const validationShema = yup.object().shape({
@@ -36,7 +38,6 @@ function Login() {
         axios.post('/api/v1/login', data)
           .then((response) => login(response.data))
           .catch((error) => {
-            console.log(error);
             if (error.code === 'ERR_NETWORK') {
               notifyErrorNetwork();
             }

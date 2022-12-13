@@ -58,6 +58,10 @@ const ChannelSlice = createSlice({
         state.channels = channels;
       })
       .addCase(fetchData.rejected, (state, action) => {
+        console.log(action);
+        if (action.error.code === 'ERR_BAD_REQUEST') {
+          localStorage.removeItem('userData');
+        }
         state.loadingStatus = false;
         state.error = action.error;
       });

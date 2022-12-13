@@ -14,7 +14,7 @@ import i18n from './i18n';
 import initializationsSocket, { SocketContext } from './socket';
 
 const rollbarConfig = {
-  accessToken: '65b8d0332b9643d59048b6bc6349b1a4',
+  accessToken: process.env.REACT_APP_ROLLBAR_ACCESS_TOKEN,
   captureUncaught: true,
   captureUnhandledRejections: true,
 };

@@ -8,13 +8,13 @@ import * as yup from 'yup';
 import { toast } from 'react-toastify';
 import { closeModal, selectModalExtra } from '../../../../../store/modalSlice';
 import { selectCurrentChannelName, selectNamesChannels } from '../../../../../store/channelsSlice';
-import { AuthorizationContext } from '../../../../../AuthorizationContext';
 import { SocketContext } from '../../../../../socket';
+import UseErrorHandler from '../../../../../hoc/UseErrorHandler';
 
 function ModalBodyRename() {
   const dispatch = useDispatch();
   const { t } = useTranslation();
-  const { errorHandler } = useContext(AuthorizationContext);
+  const errorHandler = UseErrorHandler();
   const { renameChanell } = useContext(SocketContext);
   const input = useRef(null);
   const { id } = useSelector(selectModalExtra);

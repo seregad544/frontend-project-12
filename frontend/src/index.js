@@ -4,6 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { I18nextProvider } from 'react-i18next';
 import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react';
+import filter from 'leo-profanity';
 import store from './store';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -20,6 +21,7 @@ const rollbarConfig = {
 };
 
 const socket = initializationsSocket();
+filter.add(filter.getDictionary('ru'));
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

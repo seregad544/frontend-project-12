@@ -5,10 +5,10 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import axios from 'axios';
 import { toast } from 'react-toastify';
 import { AuthorizationContext } from '../../AuthorizationContext';
 import UseErrorHandler from '../../hoc/UseErrorHandler';
+import { userLogin } from '../../routes';
 
 function Login() {
   const { login } = useContext(AuthorizationContext);
@@ -35,10 +35,10 @@ function Login() {
     },
     onSubmit: (values, { setSubmitting }) => {
       const request = (data) => {
-        axios.post('/api/v1/login', data)
+        userLogin(data)
           .then((response) => login(response.data))
           .catch((error) => {
-            if (error.code === 'ERR_NETWORK') {
+            if (error.request.status === 0) {
               notifyErrorNetwork();
             }
             setSubmitting(false);

@@ -10,12 +10,14 @@ import { closeModal } from '../../../../../store/modalSlice';
 import { selectNamesChannels } from '../../../../../store/channelsSlice';
 import { SocketContext } from '../../../../../socket';
 import UseErrorHandler from '../../../../../hoc/UseErrorHandler';
+import { AuthorizationContext } from '../../../../../AuthorizationContext';
 
 function ModalBodyAdd() {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const errorHandler = UseErrorHandler();
   const { addChannel } = useContext(SocketContext);
+  const { authorization: { userName: author } } = useContext(AuthorizationContext);
 
   const namesChannels = useSelector(selectNamesChannels);
   const input = useRef(null);
@@ -54,7 +56,7 @@ function ModalBodyAdd() {
         notifyErrorAddChannel();
         setSubmitting(false);
       };
-      addChannel(values.channel, resolve, reject);
+      addChannel(values.channel, author, resolve, reject);
     },
     validationSchema: validationShema,
   });

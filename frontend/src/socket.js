@@ -10,7 +10,7 @@ const initializationsSocket = () => {
   socket.on('newMessage', (payload) => store.dispatch(addMessage(payload)));
   socket.on('renameChannel', (payload) => store.dispatch(rename(payload)));
   socket.on('removeChannel', (payload) => store.dispatch(remove(payload)));
-  const addChannel = (channel, resolve, reject) => socket.timeout(5000).emit('newChannel', { name: channel }, (err) => {
+  const addChannel = (channel, author, resolve, reject) => socket.timeout(5000).emit('newChannel', { name: channel, author }, (err) => {
     if (err) {
       reject();
     } else {

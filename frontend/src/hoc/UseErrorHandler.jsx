@@ -11,6 +11,8 @@ function UseErrorHandler() {
     maxLengt: 'validation.Name3-20',
     minLengthPassword: 'validation.minPassword6',
     passwordsDontMatch: 'validation.PasswordsDontMatch',
+    'Request failed with status code 401': 'notifications.errorAuthorization',
+    'Network Error': 'notifications.errorConnect',
   };
 
   const errorHandler = (error) => ((errorList[error] === undefined) ? `${t('errors.default')} ${error}` : t(errorList[error]));

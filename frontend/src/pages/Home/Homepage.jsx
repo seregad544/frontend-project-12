@@ -3,8 +3,6 @@ import {
 } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
-import { useTranslation } from 'react-i18next';
-import filter from 'leo-profanity';
 import { AuthorizationContext } from '../../AuthorizationContext';
 import {
   clearError,
@@ -14,31 +12,32 @@ import Sidebar from './components/Sidebar/Sidebar';
 import MessageFeed from './components/MessageFeed/MessageFeed';
 import Loader from './components/Loader';
 import CustomModal from './components/CustomModal/CustomModal';
+import UseErrorHandler from '../../hoc/UseErrorHandler';
 
 function Home() {
   const { authorization } = useContext(AuthorizationContext);
   const dispatch = useDispatch();
-  const { t } = useTranslation();
+  const errorHandler = UseErrorHandler();
   const loadingStatus = useSelector(selectLoadingStatus);
   const error = useSelector(selectError);
 
-  const notifyErrorNetwork = useCallback(
-    () => toast(t('notifications.errorConnect'), {
+  const notifyError = useCallback(
+    (text) => toast(text, {
       hideProgressBar: true,
       theme: 'dark',
     }),
-    [t],
+    [],
   );
 
   useEffect(() => {
     dispatch(fetchData());
-    filter.add(filter.getDictionary('ru'));
     return () => dispatch(clearError());
-  }, [dispatch, notifyErrorNetwork, authorization]);
+  }, [dispatch, notifyError, authorization]);
 
   useEffect(() => {
     if (error) {
-      notifyErrorNetwork();
+      const message = errorHandler(error.message);
+      notifyError(message);
     }
   });
 

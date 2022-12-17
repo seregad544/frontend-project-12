@@ -1,14 +1,12 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, createSelector, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
+import { getData } from '../routes';
 
 export const fetchData = createAsyncThunk(
   'fetchData',
   async () => {
     const { token } = JSON.parse(localStorage.getItem('userData'));
-    const { data } = await axios.get('/api/v1/data', {
-      headers: { Authorization: `Bearer ${token}` },
-    });
+    const { data } = await getData(token);
     return data;
   },
 );
@@ -23,12 +21,15 @@ const ChannelSlice = createSlice({
   },
   reducers: {
     add(state, action) {
+      const { name: userName } = JSON.parse(localStorage.getItem('userData'));
       state.channels.push({
         id: action.payload.id,
         name: action.payload.name,
         removable: action.payload.removable,
       });
-      state.currentChannelId = action.payload.id;
+      if (!document.hidden && action.payload.author === userName) {
+        state.currentChannelId = action.payload.id;
+      }
     },
     remove(state, action) {
       state.channels = state.channels.filter((item) => item.id !== action.payload.id);
@@ -58,7 +59,6 @@ const ChannelSlice = createSlice({
         state.channels = channels;
       })
       .addCase(fetchData.rejected, (state, action) => {
-        console.log(action);
         if (action.error.code === 'ERR_BAD_REQUEST') {
           localStorage.removeItem('userData');
         }
@@ -69,6 +69,7 @@ const ChannelSlice = createSlice({
 });
 
 export const selectAllChannels = (state) => state.channelsInfo.channels;
+export const selectLastChannels = (state) => state.channelsInfo.channels.at(-1);
 export const selectCurrentChannelId = (state) => state.channelsInfo.currentChannelId;
 export const selectLoadingStatus = (state) => state.channelsInfo.loadingStatus;
 export const selectError = (state) => state.channelsInfo.error;
